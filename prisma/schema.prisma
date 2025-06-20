@@ -27,12 +27,25 @@ model User {
   role           Role    @default(USER)
   profilePicture String?
 
-  following Follow[] @relation("FollowingRelation")
-  followers Follow[] @relation("FollowerRelation")
+  following Follow[] @relation("FollowingRelation", fields: [id], references: [followingId])
+  followers Follow[] @relation("FollowerRelation", fields: [id], references: [followerId])
 
   posts    Post[]
   comments Comment[]
   likes    Like[]
 
   @@map("users")
+}
+
+model Follow {
+  id Int @id @default(autoincrement())
+
+  followerId Int
+  follower   User @relation("FollowerRelation", fields: [followerId], references: [id])
+
+  followingId Int
+  following   User @relation("FollowingRelation", fields: [followingId], references: [id])
+
+  @@unique([followerId, followingId])
+  @@map("follows")
 }
