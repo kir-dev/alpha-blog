@@ -27,8 +27,8 @@ model User {
   role           Role    @default(USER)
   profilePicture String?
 
-  following Follow[] @relation("FollowingRelation")
-  followers Follow[] @relation("FollowerRelation")
+  following Follow[] @relation("FollowingRelation", fields: [id], references: [followingId])
+  followers Follow[] @relation("FollowerRelation", fields: [id], references: [followerId])
 
   posts    Post[]
   comments Comment[]
