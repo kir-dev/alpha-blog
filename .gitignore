@@ -10,3 +10,9 @@ yarn-error.log*
 /generated/prisma
 
 /generated/prisma
+
+# Ignore environment files
+.env
+
+*-lock.json
+
