@@ -6,3 +6,14 @@ yarn-debug.log*
 yarn-error.log*
 .DS_Store
 .yarn
+
+/generated/prisma
+
+/generated/prisma
+
+# Ignore environment files
+.env
+
+*-lock.json
+
+pnpm-lock.yaml
