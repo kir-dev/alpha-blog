@@ -36,3 +36,16 @@ model User {
 
   @@map("users")
 }
+
+model Follow {
+  id Int @id @default(autoincrement())
+
+  followerId Int
+  follower   User @relation("FollowerRelation", fields: [followerId], references: [id])
+
+  followingId Int
+  following   User @relation("FollowingRelation", fields: [followingId], references: [id])
+
+  @@unique([followerId, followingId])
+  @@map("follows")
+}
