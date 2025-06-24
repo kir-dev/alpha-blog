@@ -59,3 +59,11 @@ model Like {
   postId Int
   post   Post @relation(fields: [postid], references: [id])
 }
+
+model Tag {
+  id Int @id @default(autoincrement())
+
+  tagName String @unique
+
+  posts Post[] @relation("TagPost")
+}
