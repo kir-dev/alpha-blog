@@ -72,12 +72,12 @@ model Comment {
   id Int @id @default(autoincrement())
   
   text String
-  date @default(now())
-  
+  date DateTime @default(now())
+
   postId Int 
-  post Post @relation(fields: [postId], references: [id])
+  post   Post @relation(fields: [postId], references: [id])
 
   userId Int
-  user User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id])
 
 }
