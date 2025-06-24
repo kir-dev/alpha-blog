@@ -67,3 +67,17 @@ model Tag {
 
   posts Post[] @relation("TagPost")
 }
+
+model Comment {
+  id Int @id @default(autoincrement())
+  
+  text String
+  date @default(now())
+  
+  postId Int 
+  post Post @relation(fields: [postId], references: [id])
+
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+
+}
