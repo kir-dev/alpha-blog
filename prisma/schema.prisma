@@ -49,3 +49,13 @@ model Follow {
   @@unique([followerId, followingId])
   @@map("follows")
 }
+
+model Like {
+  id Int @id @default(autoincrement())
+
+  userId Int 
+  user   User @relation(fields: [userId], references: [id])
+
+  postId Int
+  post   Post @relation(fields: [postid], references: [id])
+}
