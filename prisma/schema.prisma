@@ -49,3 +49,35 @@ model Follow {
   @@unique([followerId, followingId])
   @@map("follows")
 }
+
+model Like {
+  id Int @id @default(autoincrement())
+
+  userId Int 
+  user   User @relation(fields: [userId], references: [id])
+
+  postId Int
+  post   Post @relation(fields: [postid], references: [id])
+}
+
+model Tag {
+  id Int @id @default(autoincrement())
+
+  tagName String @unique
+
+  posts Post[] @relation("TagPost")
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+  
+  text String
+  date DateTime @default(now())
+
+  postId Int 
+  post   Post @relation(fields: [postId], references: [id])
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+}
