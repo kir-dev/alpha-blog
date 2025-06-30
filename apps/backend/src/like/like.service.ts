@@ -8,10 +8,7 @@ export class LikeService {
   async addLike(userId: number, postId: number) {
     const existingLike = await this.prisma.like.findUnique({
       where: {
-        userId_postId: {
-          userId,
-          postId,
-        },
+        userId_postId: { userId, postId },
       },
     });
 
@@ -30,10 +27,7 @@ export class LikeService {
   async removeLike(userId: number, postId: number) {
     const existingLike = await this.prisma.like.findUnique({
       where: {
-        userId_postId: {
-          userId,
-          postId,
-        },
+        userId_postId: { userId, postId },
       },
     });
 
@@ -43,27 +37,15 @@ export class LikeService {
 
     return this.prisma.like.delete({
       where: {
-        userId_postId: {
-          userId,
-          postId,
-        },
+        userId_postId: { userId, postId },
       },
     });
   }
 
   async getLikes(postId: number) {
     return this.prisma.like.findMany({
-      where: {
-        postId,
-      },
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
+      where: { postId },
+      include: { user: { select: { id: true, name: true } } },
     });
   }
 }

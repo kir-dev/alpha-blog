@@ -1,25 +1,34 @@
-import { Controller, Delete, Get, Param, Post, Req } from '@nestjs/common';
-import { Request } from 'express';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { LikeService } from './like.service';
+import { CreateLikeDto } from './dto/create-like.dto';
+import { UpdateLikeDto } from './dto/update-like.dto';
 
-@Controller('posts/:postId/like')
+@Controller('like')
 export class LikeController {
   constructor(private readonly likeService: LikeService) {}
 
   @Post()
-  async addLike(@Param('postId') postId: number, @Req() req: Request) {
-    const userId = req.user.id; // Feltételezve, hogy a felhasználó azonosítója elérhető
-    return this.likeService.addLike(userId, postId);
-  }
-
-  @Delete()
-  async removeLike(@Param('postId') postId: number, @Req() req: Request) {
-    const userId = req.user.id;
-    return this.likeService.removeLike(userId, postId);
+  create(@Body() createLikeDto: CreateLikeDto) {
+    return this.likeService.create(createLikeDto);
   }
 
   @Get()
-  async getLikes(@Param('postId') postId: number) {
-    return this.likeService.getLikes(postId);
+  findAll() {
+    return this.likeService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.likeService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateLikeDto: UpdateLikeDto) {
+    return this.likeService.update(+id, updateLikeDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.likeService.remove(+id);
   }
 }
