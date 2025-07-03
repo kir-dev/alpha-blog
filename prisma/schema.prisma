@@ -53,7 +53,7 @@ model Follow {
 model Like {
   id Int @id @default(autoincrement())
 
-  userId Int 
+  userId Int
   user   User @relation(fields: [userId], references: [id])
 
   postId Int
@@ -70,14 +70,34 @@ model Tag {
 
 model Comment {
   id Int @id @default(autoincrement())
-  
+
   text String
   date DateTime @default(now())
 
-  postId Int 
+  postId Int
   post   Post @relation(fields: [postId], references: [id])
 
   userId Int
   user   User @relation(fields: [userId], references: [id])
 
+}
+
+model Post{
+  id Int @id @default(autoincrement())
+
+  title String
+  text String
+
+  date DateTime @default(now())
+
+  comments Comment[]
+
+  likes Like[]
+
+  image String
+
+  tags Tag[] @relation("TagPost")
+
+  authorId  Int
+  author User @relation(fields: [authorId], references: [id])
 }
