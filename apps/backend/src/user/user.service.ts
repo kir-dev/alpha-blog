@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Prisma, User } from '@prisma/client';
+import { Post, Prisma, User } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -23,14 +23,14 @@ export class UserService {
     return user;
   }
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const user = await this.prisma.user.create({
       data: createUserDto,
     });
     return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     try {
       return await this.prisma.user.update({
         where: { id },
@@ -46,33 +46,34 @@ export class UserService {
     }
   }
 
-  async remove(id: number) {
-    const user = await this.findOne(id);
-    return this.userRepository.remove(user);
+  async remove(id: number): Promise<void> {
+    await this.prisma.user.delete({
+      where: { id },
+    });
   }
 
-  async getFollowers(id: number) {
-    const user = await this.userRepository.findOne({
+  async getFollowers(id: number): Promise<User[]> {
+    const user = await this.prisma.user.findUnique({
       where: { id },
-      relations: ['followers'],
+      include: { followers: true },
     });
     if (!user) throw new NotFoundException('User not found');
     return user.followers;
   }
 
-  async getFollowing(id: number) {
-    const user = await this.userRepository.findOne({
+  async getFollowing(id: number): Promise<User[]> {
+    const user = await this.prisma.user.findUnique({
       where: { id },
-      relations: ['following'],
+      include: { following: true },
     });
     if (!user) throw new NotFoundException('User not found');
     return user.following;
   }
 
-  async getPosts(id: number) {
-    const user = await this.userRepository.findOne({
+  async getPosts(id: number): Promise<Post[]> {
+    const user = await this.prisma.user.findUnique({
       where: { id },
-      relations: ['posts'],
+      include: { posts: true },
     });
     if (!user) throw new NotFoundException('User not found');
     return user.posts;
