@@ -27,8 +27,8 @@ model User {
   role           Role    @default(USER)
   profilePicture String?
 
-  following Follow[] @relation("FollowingRelation", fields: [id], references: [followingId])
-  followers Follow[] @relation("FollowerRelation", fields: [id], references: [followerId])
+  following Follow[] @relation("FollowingRelation")
+  followers Follow[] @relation("FollowerRelation")
 
   posts    Post[]
   comments Comment[]
@@ -57,7 +57,7 @@ model Like {
   user   User @relation(fields: [userId], references: [id])
 
   postId Int
-  post   Post @relation(fields: [postid], references: [id])
+  post   Post @relation(fields: [postId], references: [id])
 }
 
 model Tag {
@@ -79,14 +79,13 @@ model Comment {
 
   userId Int
   user   User @relation(fields: [userId], references: [id])
-
 }
 
-model Post{
+model Post {
   id Int @id @default(autoincrement())
 
   title String
-  text String
+  text  String
 
   date DateTime @default(now())
 
@@ -98,6 +97,6 @@ model Post{
 
   tags Tag[] @relation("TagPost")
 
-  authorId  Int
-  author User @relation(fields: [authorId], references: [id])
+  authorId Int
+  author   User @relation(fields: [authorId], references: [id])
 }
