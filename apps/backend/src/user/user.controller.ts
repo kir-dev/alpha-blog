@@ -29,8 +29,10 @@ export class UserController {
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    return this.userService.remove(id);
+  remove(@Param('id', ParseIntPipe) id: number): Promise<User> {
+    const user = this.userService.findOne(id);
+    this.userService.remove(id);
+    return user;
   }
 
   @Get(':id/followers')
