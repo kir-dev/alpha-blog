@@ -27,15 +27,37 @@ export class PostService {
       }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
+  async findOne(id: number): Promise<Post> {
+    const post = await this.prisma.post.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!post) {
+      throw new NotFoundException(`Post with id ${id} not found`);
+    }
+
+    return post;
   }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
+  async update(id: number, updatePostDto: UpdatePostDto) {
+    try{
+      return await this.prisma.post.update({
+      where: {id},
+      data: updatePostDto
+    });
+  } catch(e){
+          throw new NotFoundException(`Post with id ${id} not found`);
+    }
   }
 
   remove(id: number) {
-    return `This action removes a #${id} post`;
+    try{
+    return this.prisma.reservation.delete({
+      where:{id},
+    });
+    } catch(e){
+      throw new NotFoundException(`This post doesn't exist.`)
+    }
   }
 }
