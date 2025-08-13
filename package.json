@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start:backend": "cd apps/backend && pnpm start:dev",
+    "start:backend": "cd apps/backend && npm start:dev",
     "start:frontend": "cd apps/frontend && pnpm dev",
     "build:backend": "cd apps/backend && pnpm build",
     "build:frontend": "cd apps/frontend && pnpm build",
