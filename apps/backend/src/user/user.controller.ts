@@ -45,8 +45,8 @@ export class UserController {
     return this.userService.getFollowing(id);
   }
 
-  @Get(':id/posts')
+  /*@Get(':id/posts')
   getPosts(@Param('id', ParseIntPipe) id: number): Promise<Post[]> {
     return this.userService.getPosts(id);
-  }
+  }*/
 }

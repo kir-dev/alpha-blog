@@ -58,7 +58,16 @@ export class UserService {
       include: { followers: true },
     });
     if (!user) throw new NotFoundException('User not found');
-    return user.followers;
+    const followers: User[] = [];
+    for (const follower of user.followers) {
+      const followerDetails = await this.prisma.user.findUnique({
+        where: { id: follower.id },
+      });
+      if (followerDetails) {
+        followers.push(followerDetails);
+      }
+    }
+    return followers;
   }
 
   async getFollowing(id: number): Promise<User[]> {
@@ -67,7 +76,16 @@ export class UserService {
       include: { following: true },
     });
     if (!user) throw new NotFoundException('User not found');
-    return user.following;
+    const following: User[] = [];
+    for (const followee of user.following) {
+      const followeeDetails = await this.prisma.user.findUnique({
+        where: { id: followee.id },
+      });
+      if (followeeDetails) {
+        following.push(followeeDetails);
+      }
+    }
+    return following;
   }
 
   async getPosts(id: number): Promise<Post[]> {
