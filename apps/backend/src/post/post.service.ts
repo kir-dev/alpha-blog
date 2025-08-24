@@ -9,7 +9,7 @@ import { Post } from './entities/post.entity';
 export class PostService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createPostDto: CreatePostDto, user: User) {
+  async create(createPostDto: CreatePostDto, user: User): Promise<Post> {
     return await this.prisma.post.create({
       data: {
         ...createPostDto, //egyesevel kiirja az attributumait
@@ -21,7 +21,7 @@ export class PostService {
   async findAll(): Promise<Post[]> {
     try {
       return await this.prisma.post.findMany();
-    } catch (e) {
+    } catch {
       throw new NotFoundException('Posts not found');
     }
   }
@@ -39,23 +39,23 @@ export class PostService {
     return post;
   }
 
-  async update(id: number, updatePostDto: UpdatePostDto) {
+  async update(id: number, updatePostDto: UpdatePostDto): Promise<Post> {
     try {
       return await this.prisma.post.update({
         where: { id },
         data: updatePostDto,
       });
-    } catch (e) {
+    } catch {
       throw new NotFoundException(`Post with id ${id} not found`);
     }
   }
 
-  remove(id: number) {
+  remove(id: number): Promise<Post> {
     try {
       return this.prisma.post.delete({
         where: { id },
       });
-    } catch (e) {
+    } catch {
       throw new NotFoundException(`This post doesn't exist.`);
     }
   }
