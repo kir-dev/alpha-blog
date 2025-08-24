@@ -17,7 +17,7 @@ export class Post {
   authorId: number;
 
   @IsDate()
-  DateTime: Date;
+  date: Date;
 
   @IsString()
   image: string;

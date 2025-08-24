@@ -23,6 +23,18 @@ export class UserService {
     return user;
   }
 
+  async findMe(id: string): Promise<User> {
+    const user = this.prisma.user.findUnique({
+      where: { authSchId: id },
+    });
+
+    if (user === null) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+
+    return user;
+  }
+
   async create(createUserDto: CreateUserDto): Promise<User> {
     const user = await this.prisma.user.create({
       data: createUserDto,

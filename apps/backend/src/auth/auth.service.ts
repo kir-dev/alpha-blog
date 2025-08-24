@@ -26,10 +26,9 @@ export class AuthService {
     if (!user) {
       user = await this.prisma.user.create({
         data: {
-          id: parseInt(userProfile.authSchId),
+          authSchId: userProfile.authSchId,
           email: userProfile.email,
           name: userProfile.fullName,
-          password: 'Randomly',
         },
       });
     }
