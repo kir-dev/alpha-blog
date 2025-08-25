@@ -20,6 +20,7 @@ enum Role {
 
 model User {
   id             Int     @id @default(autoincrement())
+  authSchId      String  @id
   name           String
   email          String  @unique
   password       String
@@ -57,6 +58,9 @@ model Like {
 
   postId Int
   post   Post @relation(fields: [postId], references: [id])
+
+  @@unique([userId, postId])
+  @@map("likes")
 }
 
 model Tag {
