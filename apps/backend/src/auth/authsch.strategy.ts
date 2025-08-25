@@ -10,7 +10,7 @@ export class AuthSchStrategy extends PassportStrategy(Strategy) {
     super({
       clientId: process.env.AUTHSCH_CLIENT_ID,
       clientSecret: process.env.AUTHSCH_CLIENT_SECRET,
-      scopes: [AuthSchScope.PROFILE, AuthSchScope.EMAIL, AuthSchScope.PHONE, AuthSchScope.PEK_PROFILE],
+      scopes: [AuthSchScope.PROFILE, AuthSchScope.EMAIL, AuthSchScope.PEK_PROFILE],
     });
   }
 

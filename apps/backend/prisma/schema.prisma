@@ -20,10 +20,9 @@ enum Role {
 
 model User {
   id             Int     @id @default(autoincrement())
-  authSchId      String  @id
+  authSchId      String  @unique
   name           String
   email          String  @unique
-  password       String
   role           Role    @default(USER)
   profilePicture String?
 

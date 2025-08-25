@@ -6,14 +6,16 @@ export class User {
   id: number;
 
   @IsString()
+  @IsPositive()
+  @IsOptional()
+  authSchId?: string;
+
+  @IsString()
   @IsNotEmpty()
   name: string;
 
   @IsEmail()
   email: string;
-
-  @IsOptional()
-  password: string;
 
   @IsOptional()
   profilePicture: string;
