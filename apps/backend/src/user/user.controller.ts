@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
-import { ApiBearerAuth } from '@nestjs/swagger';
+
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from '@kir-dev/passport-authsch';
 
@@ -16,16 +16,15 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  @Get('me')
+  @UseGuards(AuthGuard('jwt')) // Ha JWT-t használsz
+  async getCurrentUser(@CurrentUser() user: User): Promise<User> {
+    return await this.userService.findMe(user.authSchId);
+  }
+
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<User> {
     return this.userService.findOne(id);
-  }
-
-  @Get('me')
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt')) // Ha JWT-t használsz
-  async getCurrentUser(@CurrentUser() user: User): Promise<User> {
-    return this.userService.findMe(user.authSchId);
   }
 
   @Post()
