@@ -1,6 +1,6 @@
 export class CreateUserDto {
+  authSchId: string;
   name: string;
   email: string;
-  password: string;
   profilePicture?: string;
 }

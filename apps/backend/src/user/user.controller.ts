@@ -1,8 +1,11 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
+
+import { AuthGuard } from '@nestjs/passport';
+import { CurrentUser } from '@kir-dev/passport-authsch';
 
 @Controller('users')
 export class UserController {
@@ -11,6 +14,12 @@ export class UserController {
   @Get()
   async findAll(): Promise<{ users: User[] }> {
     return this.userService.findAll();
+  }
+
+  @Get('me')
+  @UseGuards(AuthGuard('jwt')) // Ha JWT-t használsz
+  async getCurrentUser(@CurrentUser() user: User): Promise<User> {
+    return await this.userService.findMe(user.authSchId);
   }
 
   @Get(':id')

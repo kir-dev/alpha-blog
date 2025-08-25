@@ -20,16 +20,15 @@ export class AuthService {
 
   async findOrCreateUser(userProfile: AuthSchProfile): Promise<User> {
     let user = await this.prisma.user.findUnique({
-      where: { id: parseInt(userProfile.authSchId) },
+      where: { authSchId: userProfile.authSchId },
     });
 
     if (!user) {
       user = await this.prisma.user.create({
         data: {
-          id: parseInt(userProfile.authSchId),
+          authSchId: userProfile.authSchId,
           email: userProfile.email,
           name: userProfile.fullName,
-          password: 'Randomly',
         },
       });
     }

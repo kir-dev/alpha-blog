@@ -27,6 +27,7 @@
     "@nestjs/swagger": "^11.1.0",
     "@prisma/client": "^6.5.0",
     "@scalar/nestjs-api-reference": "^0.4.3",
+    "axios": "^1.11.0",
     "nestjs-prisma": "^0.25.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",

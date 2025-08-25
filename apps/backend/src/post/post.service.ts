@@ -7,24 +7,23 @@ import { Post } from './entities/post.entity';
 
 @Injectable()
 export class PostService {
-  constructor(private readonly prisma: PrismaService){}
+  constructor(private readonly prisma: PrismaService) {}
 
-  async create(createPostDto: CreatePostDto, user: User) {
-
+  async create(createPostDto: CreatePostDto, user: User): Promise<Post> {
     return await this.prisma.post.create({
-      data:{
+      data: {
         ...createPostDto, //egyesevel kiirja az attributumait
         authorId: user.id,
-      }
-    })
+      },
+    });
   }
 
   async findAll(): Promise<Post[]> {
     try {
       return await this.prisma.post.findMany();
-    }catch(e){
-        throw new NotFoundException('Posts not found')
-      }
+    } catch {
+      throw new NotFoundException('Posts not found');
+    }
   }
 
   async findOne(id: number): Promise<Post> {
@@ -40,24 +39,24 @@ export class PostService {
     return post;
   }
 
-  async update(id: number, updatePostDto: UpdatePostDto) {
-    try{
+  async update(id: number, updatePostDto: UpdatePostDto): Promise<Post> {
+    try {
       return await this.prisma.post.update({
-      where: {id},
-      data: updatePostDto
-    });
-  } catch(e){
-          throw new NotFoundException(`Post with id ${id} not found`);
+        where: { id },
+        data: updatePostDto,
+      });
+    } catch {
+      throw new NotFoundException(`Post with id ${id} not found`);
     }
   }
 
-  remove(id: number) {
-    try{
-    return this.prisma.reservation.delete({
-      where:{id},
-    });
-    } catch(e){
-      throw new NotFoundException(`This post doesn't exist.`)
+  remove(id: number): Promise<Post> {
+    try {
+      return this.prisma.post.delete({
+        where: { id },
+      });
+    } catch {
+      throw new NotFoundException(`This post doesn't exist.`);
     }
   }
 }
