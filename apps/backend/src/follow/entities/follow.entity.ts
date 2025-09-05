@@ -1,11 +1,11 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class Follow {
   @IsNotEmpty()
-  @IsString()
+  @IsNumber()
   followerId: number;
 
   @IsNotEmpty()
-  @IsString()
+  @IsNumber()
   followingId: number;
 }
