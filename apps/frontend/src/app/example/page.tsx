@@ -10,7 +10,7 @@ export default function Groups() {
   const [realUser, setRealUser] = useState<User>();
 
   useEffect(() => {
-    axios.get('http://localhost:3001/users/5').then((res) => {
+    axios.get('http://localhost:3001/users/6').then((res) => {
       setRealUser(res.data);
       console.log(res.data);
     });
@@ -39,7 +39,9 @@ export default function Groups() {
           Váltás
         </button>
       </div>
-      <div className='flex justify-center m-auto bg-blue-400 p-10 rounded-lg space-y-5'>{realUser?.name || 'Hiba'}</div>
+      <div className='flex justify-center m-auto bg-blue-400 p-10 rounded-lg space-y-5'>
+        {realUser ? realUser.name : 'Bejelentkezés'}
+      </div>
     </div>
   );
 }
