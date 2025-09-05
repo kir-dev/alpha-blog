@@ -1,10 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { User } from '@/types/user';
 
 export default function Groups() {
   const [inputValue, setInputValue] = useState<string>('');
   const [user, setUser] = useState<string>('Béla');
+  const [realUser, setRealUser] = useState<User>();
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/users/5').then((res) => {
+      setRealUser(res.data);
+      console.log(res.data);
+    });
+  }, [user]);
 
   return (
     <div className='flex flex-col justify-center min-h-screen bg-blue-900'>
@@ -29,6 +39,7 @@ export default function Groups() {
           Váltás
         </button>
       </div>
+      <div className='flex justify-center m-auto bg-blue-400 p-10 rounded-lg space-y-5'>{realUser?.name || 'Hiba'}</div>
     </div>
   );
 }
