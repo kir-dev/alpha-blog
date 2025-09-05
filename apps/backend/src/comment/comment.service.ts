@@ -37,4 +37,9 @@ export class CommentService {
 
     return this.prisma.comment.delete({ where: { id } });
   }
+
+  async findAll(postId: number): Promise<{ comments: Comment[] }> {
+    const comments = await this.prisma.comment.findMany({ where: { postId } });
+    return { comments };
+  }
 }
