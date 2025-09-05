@@ -1,3 +1,4 @@
+import Navbar from '@/components/navbar';
 import './globals.css';
 
 import type { Metadata } from 'next';
@@ -17,7 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='hu'>
-      <body className={inter.className}>{children}</body>
+      <body className='min-h-screen bg-gray-50 text-gray-900'>
+        <Navbar />
+        <main className='mx-auto max-w-6xl px-4 py-8'>{children}</main>
+      </body>
     </html>
   );
 }
