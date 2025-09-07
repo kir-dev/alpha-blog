@@ -1,10 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { apiReference } from '@scalar/nestjs-api-reference';
-import cors from 'cors';
 
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);

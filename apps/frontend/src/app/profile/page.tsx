@@ -1,16 +1,14 @@
 'use client';
 import type { User } from '@/app/types/user';
-import axios from 'axios';
+import api from '@/lib/api';
 import { useEffect, useState } from 'react';
-
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:3001';
 
 export default function ProfilePage() {
   const [me, setMe] = useState<User | null>(null);
 
   useEffect(() => {
-    axios
-      .get(`${API_BASE}/me`, { withCredentials: true })
+    api
+      .get('/users/me')
       .then((res: { data: any }) => setMe(res.data))
       .catch(() => setMe(null));
   }, []);
@@ -23,8 +21,8 @@ export default function ProfilePage() {
       </p>
       {me ? (
         <div className='mt-4 rounded-lg border p-4'>
-          <p className='font-semibold'>Bejelentkezve mint: {me.username}</p>
-          <p className='text-sm text-gray-600'>@{me.username}</p>
+          <p className='font-semibold'>Bejelentkezve mint: {me.name}</p>
+          <p className='text-sm text-gray-600'>@{me.name}</p>
         </div>
       ) : (
         <p className='text-sm text-gray-600'>Nem vagy bejelentkezve.</p>

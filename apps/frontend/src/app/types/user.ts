@@ -1,7 +1,7 @@
 export type User = {
   id: number;
   authSchId: string;
-  username: string;
+  name: string;
   email: string;
   profilePicture: string;
 };

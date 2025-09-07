@@ -1,10 +1,9 @@
 'use client';
 
+import { API_BASE } from '@/lib/api';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
-
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:3001';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -19,7 +18,7 @@ export default function Navbar() {
   const onSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      const query = q?.trim();
+      const query = q.trim();
       router.push(query ? `/search?q=${encodeURIComponent(query)}` : '/search');
     },
     [q, router]

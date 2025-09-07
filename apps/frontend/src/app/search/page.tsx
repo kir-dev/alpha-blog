@@ -2,11 +2,9 @@
 
 import type { Post } from '@/app/types/post';
 import type { User } from '@/app/types/user';
-import axios from 'axios';
+import api from '@/lib/api';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:3001';
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
@@ -22,8 +20,8 @@ export default function SearchPage() {
       setLoading(true);
       try {
         const [u, p] = await Promise.all([
-          axios.get<User[]>(`${API_BASE}/users`, { params: { q: debouncedQuery } }).catch(() => ({ data: [] })),
-          axios.get<Post[]>(`${API_BASE}/posts`, { params: { q: debouncedQuery } }).catch(() => ({ data: [] })),
+          api.get<User[]>('/users', { params: { q: debouncedQuery } }).catch(() => ({ data: [] })),
+          api.get<Post[]>('/posts', { params: { q: debouncedQuery } }).catch(() => ({ data: [] })),
         ]);
         if (cancelled) return;
         setUsers(Array.isArray(u.data) ? u.data : []);
@@ -59,8 +57,8 @@ export default function SearchPage() {
             {users.length === 0 && !loading && <li className='p-3 text-sm text-gray-600'>Nincs találat.</li>}
             {users.map((u) => (
               <li key={u.id} className='p-3'>
-                <div className='font-medium'>{u.username}</div>
-                <div className='text-sm text-gray-600'>@{u.username}</div>
+                <div className='font-medium'>{u.name}</div>
+                <div className='text-sm text-gray-600'>@{u.name}</div>
               </li>
             ))}
           </ul>
